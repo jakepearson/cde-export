@@ -12,6 +12,7 @@ namespace cde.district.validation
         const string School = "SCHOOL_NUMBER";
 		const string DistrictName = "DISTRICT_NAME";
 		const string SchoolLevel = "EMH_CODE";
+        const string SchoolName = "SCHOOL_NAME";
 
         private Dictionary<string, string> data = new Dictionary<string, string>();
         public int LineNumber;
@@ -43,10 +44,25 @@ namespace cde.district.validation
                 }
             }
         }
+
+        public string Title
+        {
+            get
+            {
+                if (this.ContainsKey(SchoolName))
+                {
+                    return this[SchoolName];
+                }
+                else
+                {
+                    return this[DistrictName];
+                }
+            }
+        }
         
 		public override string ToString()
 		{
-			return Name + " (" + LineNumber + ")";
+			return Name + " (" + LineNumber + ") " + Title;
 		}
 
 		public string Level
@@ -72,9 +88,13 @@ namespace cde.district.validation
                 {
                     return data[key];
                 }
-                else
+                else if (ContainsKey(DistrictName))
                 {
                     throw new Exception("Key (" + key + ") not found for row: " + Name);
+                }
+                else
+                {
+                    return "Title Not Available";
                 }
             }
             set { data[key] = value; }
